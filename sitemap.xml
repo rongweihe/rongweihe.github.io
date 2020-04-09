@@ -2,9 +2,16 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
-    <loc>http://herongwei.com/About/index.html</loc>
+    <loc>http://herongwei.com/tags/index.html</loc>
     
-    <lastmod>2020-04-08T01:19:39.789Z</lastmod>
+    <lastmod>2020-04-09T03:55:42.095Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://herongwei.com/categories/index.html</loc>
+    
+    <lastmod>2020-04-09T03:55:25.442Z</lastmod>
     
   </url>
   
@@ -19,27 +26,6 @@
     <loc>http://herongwei.com/404.html</loc>
     
     <lastmod>2020-04-06T14:08:23.523Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://herongwei.com/gallery/index.html</loc>
-    
-    <lastmod>2020-04-06T14:07:36.229Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://herongwei.com/categories/index.html</loc>
-    
-    <lastmod>2020-04-06T14:04:59.718Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://herongwei.com/tags/index.html</loc>
-    
-    <lastmod>2020-04-06T14:04:32.099Z</lastmod>
     
   </url>
   
