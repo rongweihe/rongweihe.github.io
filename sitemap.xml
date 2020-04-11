@@ -2,6 +2,13 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://herongwei.com/about/index.html</loc>
+    
+    <lastmod>2020-04-11T14:22:08.598Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://herongwei.com/2020/04/11/yi-wen-gao-ding-udp-he-tcp-gao-pin-mian-shi-ti/</loc>
     
     <lastmod>2020-04-11T13:58:17.898Z</lastmod>
@@ -26,13 +33,6 @@
     <loc>http://herongwei.com/2020/04/11/xiao-gou-qian-qian-du-shu-bi-ji/</loc>
     
     <lastmod>2020-04-11T12:14:46.392Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://herongwei.com/about/index.html</loc>
-    
-    <lastmod>2020-04-11T11:11:03.750Z</lastmod>
     
   </url>
   

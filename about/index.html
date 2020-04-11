@@ -507,181 +507,38 @@
                 </div>
 
                 <div class="introduction center-align" data-aos="fade-up">Hi~ o(*￣▽￣*)ブ，朋友，你好，欢迎来到我的博客。</div>
+                        <div class="card-content article-card-content">
+                            <div class="title center-align" data-aos="zoom-in-up">
+                                <i class="fa fa-address-book"></i>&nbsp;&nbsp;关于作者
+                            </div>
+                            <div id="articleContent" data-aos="fade-up">
+                                <p>Hi~ o(<em>￣▽￣</em>)ブ，朋友，你好，欢迎来到我的博客。</p>
+<p><strong>自我介绍</strong></p>
+<p>1、首先，得说明下，这个博客属于我个人，一切观点都代表个人，跟任何组织与机构无关。</p>
+<p>2、95 后工科男，北交大 CS 硕士毕业，是一名奋斗在追梦路上的初级程序猿。</p>
+<p>3、目前就职于 Sogou，从事后端开发方向，有关计算机考研面试、复试、Linux、C++、Golang 后端开发技术也可以和我交流[调皮]~</p>
+<p>4、个人 ID ：herongwei，追求技术，热爱写作与分享，欢迎多多交流。</p>
+<p>5、除了这里，你还可以在其他平台找到我。</p>
+<p><strong>微博</strong>: @herongwei</p>
+<p><strong>知乎</strong>: <a href="https://www.zhihu.com/people/herongwei" target="_blank" rel="noopener">https://www.zhihu.com/people/herongwei</a></p>
+<p><strong>GitHub</strong>: <a href="https://github.com/rongweihe" target="_blank" rel="noopener">https://github.com/rongweihe</a></p>
+<p><strong>CSDN</strong>: <a href="https://blog.csdn.net/u013050857" target="_blank" rel="noopener">https://blog.csdn.net/u013050857</a></p>
+<p><strong>兴趣爱好</strong> 读书，代码，健身，喜欢没事折腾。</p>
+<p><strong>座右铭:</strong> 认真的人，自带光芒！</p>
+<p><strong>自我评价</strong> 喜爱算法，热爱编程，性格安静，喜欢钻研，有较强的自我学习能力和解决问题能力，对新知识有很强的欲望，习惯注意一些细节，能够和团队有良好的沟通与协作。</p>
+<center>公众号：「herongwei」</center>
 
-                <style type="text/css">
-    #posts-chart,
-    #categories-chart,
-    #tags-chart {
-        width: 100%;
-        height: 300px;
-        margin: 0.5rem auto;
-        padding: 0.5rem;
-    }
-</style>
-
-<div id="postCharts" class="post-charts">
-    <div class="title center-align" data-aos="zoom-in-up">
-        <i class="far fa-bar-chart"></i>&nbsp;&nbsp;文章统计图
-    </div>
-    <div class="row">
-        <div class="chart col s12 m6 l4" data-aos="zoom-in-up">
-            <div id="posts-chart"></div>
-        </div>
-
-        <div class="chart col s12 m6 l4" data-aos="zoom-in-up">
-            <div id="categories-chart"></div>
-        </div>
-
-        <div class="chart col s12 m6 l4" data-aos="zoom-in-up">
-            <div id="tags-chart"></div>
-        </div>
-    </div>
-</div>
-
-<script type="text/javascript" src="/libs/echarts/echarts.min.js"></script>
-<script>
-    let postsChart = echarts.init(document.getElementById('posts-chart'));
-    let categoriesChart = echarts.init(document.getElementById('categories-chart'));
-    let tagsChart = echarts.init(document.getElementById('tags-chart'));
-
-    
-
-    let postsOption = {
-        title: {
-            text: '文章发布统计图',
-            top: -5,
-            x: 'center'
-        },
-        tooltip: {
-            trigger: 'axis'
-        },
-        xAxis: {
-            type: 'category',
-            data: ["2019-04","2019-05","2019-06","2019-07","2019-08","2019-09","2019-10","2019-11","2019-12","2020-01","2020-02","2020-03","2020-04"]
-        },
-        yAxis: {
-            type: 'value',
-        },
-        series: [
-            {
-                name: '文章篇数',
-                type: 'line',
-                color: ['#6772e5'],
-                data: [0,0,0,0,0,0,0,0,0,0,0,0,6],
-                markPoint: {
-                    symbolSize: 45,
-                    color: ['#fa755a','#3ecf8e','#82d3f4'],
-                    data: [{
-                        type: 'max',
-                        itemStyle: {color: ['#3ecf8e']},
-                        name: '最大值'
-                    }, {
-                        type: 'min',
-                        itemStyle: {color: ['#fa755a']},
-                        name: '最小值'
-                    }]
-                },
-                markLine: {
-                    itemStyle: {color: ['#ab47bc']},
-                    data: [
-                        {type: 'average', name: '平均值'}
-                    ]
-                }
-            }
-        ]
-    };
-
-    
-
-    let categoriesOption = {
-        title: {
-            text: '文章分类统计图',
-            top: -4,
-            x: 'center'
-        },
-        tooltip: {
-            trigger: 'item',
-            formatter: "{a} <br/>{b} : {c} ({d}%)"
-        },
-        series: [
-            {
-                name: '分类',
-                type: 'pie',
-                radius: '50%',
-                color: ['#6772e5', '#ff9e0f', '#fa755a', '#3ecf8e', '#82d3f4', '#ab47bc', '#525f7f', '#f51c47', '#26A69A'],
-                data: [{"name":"计算机知识","value":2},{"name":"生活","value":1},{"name":"Markdown","value":1}],
-                itemStyle: {
-                    emphasis: {
-                        shadowBlur: 10,
-                        shadowOffsetX: 0,
-                        shadowColor: 'rgba(0, 0, 0, 0.5)'
-                    }
-                }
-            }
-        ]
-    };
-
-    
-
-    let tagsOption = {
-        title: {
-            text: 'TOP10 标签统计图',
-            top: -5,
-            x: 'center'
-        },
-        tooltip: {},
-        xAxis: [
-            {
-                type: 'category',
-                data: ["计算机","底层知识","总结","计算机网络","生活","Markdown","读书笔记","操作系统"]
-            }
-        ],
-        yAxis: [
-            {
-                type: 'value'
-            }
-        ],
-        series: [
-            {
-                type: 'bar',
-                color: ['#82d3f4'],
-                barWidth : 18,
-                data: [2,2,1,1,1,1,1,1],
-                markPoint: {
-                    symbolSize: 45,
-                    data: [{
-                        type: 'max',
-                        itemStyle: {color: ['#3ecf8e']},
-                        name: '最大值'
-                    }, {
-                        type: 'min',
-                        itemStyle: {color: ['#fa755a']},
-                        name: '最小值'
-                    }],
-                },
-                markLine: {
-                    itemStyle: {color: ['#ab47bc']},
-                    data: [
-                        {type: 'average', name: '平均值'}
-                    ]
-                }
-            }
-        ]
-    };
-
-    // render the charts
-    postsChart.setOption(postsOption);
-    categoriesChart.setOption(categoriesOption);
-    tagsChart.setOption(tagsOption);
-</script>
+<div align="center"> <img src="https://i.loli.net/2020/04/06/SBXI8QwrDyANjbg.jpg "width="250"/> </div><br>
 
 
-                
 
-                
+<p>04/06/2020</p>
+<p>By@herongwei</p>
 
-                
-
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
