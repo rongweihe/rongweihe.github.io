@@ -4,7 +4,7 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="keywords" content="浅谈程序的内存布局, herongweiのBlog">
+    <meta name="keywords" content="一文搞定 UDP 和 TCP 高频面试题, herongweiのBlog">
     <meta name="description" content="herongweiのBlog">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
@@ -16,7 +16,7 @@
     <!-- Global site tag (gtag.js) - Google Analytics -->
 
 
-    <title>浅谈程序的内存布局 | herongweiのBlog</title>
+    <title>一文搞定 UDP 和 TCP 高频面试题 | herongweiのBlog</title>
     <link rel="icon" type="image/png" href="/favicon.png">
 
     <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.css">
@@ -310,12 +310,12 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('https://i.loli.net/2020/04/11/WJ34GOpkV5TtvFA.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('https://i.loli.net/2020/04/11/iKuakElHm5SeOW8.jpg')">
     <div class="container" style="right: 0px;left: 0px;">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
-                    <h1 class="description center-align post-title">浅谈程序的内存布局</h1>
+                    <h1 class="description center-align post-title">一文搞定 UDP 和 TCP 高频面试题</h1>
                 </div>
             </div>
         </div>
@@ -444,12 +444,12 @@
                                 <span class="chip bg-color">计算机</span>
                             </a>
                         
-                            <a href="/tags/%E5%BA%95%E5%B1%82%E7%9F%A5%E8%AF%86/">
-                                <span class="chip bg-color">底层知识</span>
+                            <a href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/">
+                                <span class="chip bg-color">计算机网络</span>
                             </a>
                         
-                            <a href="/tags/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/">
-                                <span class="chip bg-color">操作系统</span>
+                            <a href="/tags/%E5%BA%95%E5%B1%82%E7%9F%A5%E8%AF%86/">
+                                <span class="chip bg-color">底层知识</span>
                             </a>
                         
                     </div>
@@ -487,14 +487,14 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    5.3k
+                    7.1k
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-clock fa-fw"></i>阅读时长:&nbsp;&nbsp;
-                    18 分
+                    24 分
                 </div>
                 
 
@@ -509,151 +509,194 @@
         <hr class="clearfix">
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <h5 id="前言："><a href="#前言：" class="headerlink" title="前言："></a><strong>前言</strong>：</h5><blockquote>
-<p>原文首发于知乎：<a href="https://zhuanlan.zhihu.com/p/77122692" target="_blank" rel="noopener">https://zhuanlan.zhihu.com/p/77122692</a></p>
-<p>目前收获 388+ 个赞，20+ 评论。</p>
-</blockquote>
-<h2 id="目录"><a href="#目录" class="headerlink" title="目录"></a>目录</h2><blockquote>
-<p><strong>1、什么是 User space 与 Kernel space？</strong></p>
-<p><strong>2、Linux 下一个进程里典型的内存布局是怎样的？</strong></p>
-<p><strong>3、什么是栈区？</strong></p>
-<p><strong>4、什么是堆区？</strong></p>
-<p><strong>5、malloc 算法是如何实现的？</strong></p>
-<p><strong>6、Linux 系统下，有几种堆空间分配方式？</strong></p>
-</blockquote>
-<p><strong>上面几个问题，点进来的老铁，心里有答案吗？如果没有，跟我一起来探究一下吧。</strong></p>
-<h2 id="1、User-space-与-Kernel-space"><a href="#1、User-space-与-Kernel-space" class="headerlink" title="1、User space 与 Kernel space"></a><strong>1、User space 与 Kernel space</strong></h2><p>现代的应用程序都运行在一个内存空间里，在 32 位系统中，这个内存空间拥有 4GB （2 的 32 次方）的寻址能力。</p>
-<p>尽管现在的内存空间都号称是平坦的，但实际上内存仍然在不同的地址区间有着不同的地位，例如，大多数操作系统都会将 4GB 的内存空间一部分挪给内核使用，应用程序无法直接访问这一段内存，这一部分内存地址被称为 内核空间。</p>
+                <p><strong>前言：</strong></p>
 <blockquote>
-<p>Windows 在默认的情况下会将高地址的 2GB 空间分配给内核（也可以配置 1GB）。<br>Linux 默认情况下将高地址的 1GB 空间分配给内核。</p>
+<p>找工作面试，不管是春招还是秋招，面试官会经常问到 UDP 和 TCP，就拿自己参加的 2019 春招和秋招来说，加起来一共参加了 50 来场大大小小的面试，<strong>几乎每一轮面试，面试官都会问到计算机网络的知识，尤其是 UDP 和 TCP 的知识点。</strong></p>
+<p>面试参加多了，会发现面试官几乎问来问去都是那几个问题，如果我们提前把这些问题搞得明白些，相信，下次参加面试你心里也有一定的自信了，也就能给面试官留下不错的印象，那么今天就来看看，给大家总结其中的核心高频面试题都有哪些，再有面试官问你相关的知识点，看这篇就差不多。</p>
+<p>PS：文章有点长，请耐心阅读。</p>
 </blockquote>
-<p>用户使用的剩下的 2GB 或 3GB 的内存空间称为用户空间。</p>
-<p><strong>为什么要区分内核空间和用户空间？</strong></p>
-<p>大致有三点因素：</p>
-<p>第一点：操作系统的数据都是存放于系统空间的，用户进程的数据是存放于用户空间的；</p>
-<p>第二点：分开来存放，就让系统的数据和用户的数据互不干扰，保证系统的稳定性，并且管理上很方便；</p>
-<p>第三点：也是重要的一点，将用户的数据和系统的数据隔离开，就可以对两部分的数据的访问进行控制。这样就可以确保用户程序不能随便操作系统的数据，这样防止用户程序误操作或者是恶意破坏系统。</p>
-<p>下面这一张图，比较形象的解释了 User space 与 Kernel space 的区别</p>
-<p><img src="https://pic2.zhimg.com/80/v2-18fabec59a3f38e36a371caa5d1093a9_1440w.jpg" alt="User space VS Kernel space"></p>
-<p>简单说，Kernel space 是 Linux 内核的运行空间，User space 是用户程序的运行空间。为了安全，它们是隔离的，即使用户的程序崩溃了，内核也不受影响。</p>
-<p>Kernel space 可以执行任意命令，调用系统的一切资源；</p>
-<p>相对来说，User space 执行的是较为简单的运算，执行的运算不影响其他程序的执行，并且不能直接调用系统资源，必须通过系统接口（又称 system call），才能向内核发出指令。</p>
+<p>目录：</p>
+<p><strong>1、UDP 和 TCP 的特点与区别</strong></p>
+<p><strong>2、UDP 、TCP 首部格式</strong></p>
+<p><strong>3、TCP 的三次握手和四次挥手</strong></p>
+<p><strong>4、TCP 的三次握手（为什么三次？）</strong></p>
+<p><strong>5、TCP 的四次挥手（为什么四次？）</strong></p>
+<p><strong>6、TCP 长连接和短连接的区别</strong></p>
+<p><strong>7、TCP粘包、拆包及解决办法</strong></p>
+<p><strong>8、TCP 可靠传输</strong></p>
+<p><strong>9、TCP 滑动窗口</strong></p>
+<p><strong>10、TCP 流量控制</strong></p>
+<p><strong>11、TCP 拥塞控制</strong></p>
+<p><strong>12、提供网络利用率</strong></p>
+<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a><strong>前言</strong></h2><p>网络层只把分组发送到目的主机，但是真正通信的并不是主机而是主机中的进程。传输层提供了进程间的逻辑通信，传输层向高层用户屏蔽了下面网络层的核心细节，使应用程序看起来像是在两个传输层实体之间有一条端到端的逻辑通信信道。</p>
+<p><strong>1、UDP 和 TCP 的特点与区别</strong></p>
+<p><strong>用户数据报协议 UDP（User Datagram Protocol）</strong></p>
+<p>是无连接的，尽最大可能交付，没有拥塞控制，面向报文（对于应用程序传下来的报文不合并也不拆分，只是添加 UDP 首部），支持一对一、一对多、多对一和多对多的交互通信。</p>
+<p><strong>传输控制协议 TCP（Transmission Control Protocol）</strong></p>
+<p>是面向连接的，提供可靠交付，有流量控制，拥塞控制，提供全双工通信，面向字节流（把应用层传下来的报文看成字节流，把字节流组织成大小不等的数据块），每一条 TCP 连接只能是点对点的（一对一）。</p>
+<h2 id="2、UDP-、TCP-首部格式"><a href="#2、UDP-、TCP-首部格式" class="headerlink" title="2、UDP 、TCP 首部格式"></a><strong>2、UDP 、TCP 首部格式</strong></h2><p><img src="https://pic1.zhimg.com/80/v2-c01a6511abf81f867fd0e531bd51af2c_1440w.jpg" alt="UDP 首部格式"></p>
+<p>UDP 首部字段只有 8 个字节，包括源端口、目的端口、长度、检验和。12 字节的伪首部是为了计算检验和临时添加的。</p>
+<p><img src="https://pic3.zhimg.com/80/v2-3bd45a13afe868cae6225d75b85e9c36_1440w.jpg" alt="TCP 首部格式"></p>
+<p>TCP 首部格式比 UDP 复杂。</p>
+<p><strong>序号：</strong>用于对字节流进行编号，例如序号为 301，表示第一个字节的编号为 301，如果携带的数据长度为 100 字节，那么下一个报文段的序号应为 401。</p>
+<p><strong>确认号：</strong>期望收到的下一个报文段的序号。例如 B 正确收到 A 发送来的一个报文段，序号为 501，携带的数据长度为 200 字节，因此 B 期望下一个报文段的序号为 701，B 发送给 A 的确认报文段中确认号就为 701。</p>
+<p><strong>数据偏移：</strong>指的是数据部分距离报文段起始处的偏移量，实际上指的是首部的长度。</p>
+<p><strong>控制位：</strong>八位从左到右分别是 CWR，ECE，URG，ACK，PSH，RST，SYN，FIN。</p>
+<p><strong>CWR：</strong>CWR 标志与后面的 ECE 标志都用于 IP 首部的 ECN 字段，ECE 标志为 1 时，则通知对方已将拥塞窗口缩小；</p>
+<p><strong>ECE：</strong>若其值为 1 则会通知对方，从对方到这边的网络有阻塞。在收到数据包的 IP 首部中 ECN 为 1 时将 TCP 首部中的 ECE 设为 1；</p>
+<p><strong>URG：</strong>该位设为 1，表示包中有需要紧急处理的数据，对于需要紧急处理的数据，与后面的紧急指针有关；</p>
+<p><strong>ACK：</strong>该位设为 1，确认应答的字段有效，TCP规定除了最初建立连接时的 SYN 包之外该位必须设为 1；</p>
+<p><strong>PSH：</strong>该位设为 1，表示需要将收到的数据立刻传给上层应用协议，若设为 0，则先将数据进行缓存；</p>
+<p><strong>RST：</strong>该位设为 1，表示 TCP 连接出现异常必须强制断开连接；</p>
+<p><strong>SYN：</strong>用于建立连接，该位设为 1，表示希望建立连接，并在其序列号的字段进行序列号初值设定；</p>
+<p><strong>FIN：</strong>该位设为 1，表示今后不再有数据发送，希望断开连接。当通信结束希望断开连接时，通信双方的主机之间就可以相互交换 FIN 位置为 1 的 TCP 段。</p>
+<p>每个主机又对对方的 FIN 包进行确认应答之后可以断开连接。不过，主机收到 FIN 设置为 1 的 TCP 段之后不必马上回复一个 FIN 包，而是可以等到缓冲区中的所有数据都因为已成功发送而被自动删除之后再发 FIN 包；</p>
+<p><strong>窗口：</strong>窗口值作为接收方让发送方设置其发送窗口的依据。之所以要有这个限制，是因为接收方的数据缓存空间是有限的。</p>
+<h2 id="3、什么是-TCP-的三次握手和四次挥手？"><a href="#3、什么是-TCP-的三次握手和四次挥手？" class="headerlink" title="3、什么是 TCP 的三次握手和四次挥手？"></a><strong>3、什么是 TCP 的三次握手和四次挥手？</strong></h2><p>TCP 是一种面向连接的单播协议，在发送数据前，通信双方必须在彼此间建立一条连接。所谓的“连接”，其实是客户端和服务器的内存里保存的一份关于对方的信息，如 IP 地址、端口号等。</p>
+<p>TCP 可以看成是一种字节流，它会处理 IP 层或以下的层的丢包、重复以及错误问题。在连接的建立过程中，双方需要交换一些连接的参数。这些参数可以放在 TCP 头部。</p>
+<p>TCP 提供了一种可靠、面向连接、字节流、传输层的服务，采用三次握手建立一个连接；采用四次挥手来关闭一个连接。</p>
+<p>一个 TCP 连接由一个 4 元组构成，分别是两个 IP 地址和两个端口号。一个TCP连接通常分为三个阶段：启动、数据传输、退出（关闭）。</p>
+<p>当 TCP 接收到另一端的数据时，它会发送一个确认，但这个确认不会立即发送，一般会延迟一会（提供网络利用率这部分有讲到）。</p>
+<p>ACK 是累积的，一个确认字节号 N 的 ACK 表示所有直到 N 的字节（不包括 N）已经成功被接收了。这样的好处是如果一个 ACK 丢失，很可能后续的 ACK 就足以确认前面的报文段了。</p>
+<p><strong>一个完整的 TCP 连接是双向和对称的，数据可以在两个方向上平等地流动。给上层应用程序提供一种双工服务。一旦建立了一个连接，这个连接的一个方向上的每个 TCP 报文段都包含了相反方向上的报文段的一个 ACK。</strong></p>
+<p>序列号的作用是使得一个 TCP 接收端可丢弃重复的报文段，记录以杂乱次序到达的报文段。因为 TCP 使用 IP 来传输报文段，而IP 不提供重复消除或者保证次序正确的功能。</p>
+<p>另一方面，TCP 是一个字节流协议，绝不会以杂乱的次序给上层程序发送数据。因此 TCP 接收端会被迫先保持大序列号的数据不交给应用程序，直到缺失的小序列号的报文段被填满。</p>
+<h2 id="4、TCP-的三次握手（为什么三次？）"><a href="#4、TCP-的三次握手（为什么三次？）" class="headerlink" title="4、TCP 的三次握手（为什么三次？）"></a><strong>4、TCP 的三次握手（为什么三次？）</strong></h2><p>三次握手：</p>
+<p><img src="https://pic4.zhimg.com/80/v2-0673bbc84fe4440aed9d1dadc67ae79b_1440w.jpg" alt="三次握手"></p>
+<p>假设 A 为客户端，B 为服务器端。</p>
+<p>首先 B 处于 LISTEN（监听）状态，等待客户的连接请求。</p>
+<ul>
+<li>A 向 B 发送连接请求报文，SYN=1，ACK=0，选择一个初始的序号 x。</li>
+<li>B 收到连接请求报文，如果同意建立连接，则向 A 发送连接确认报文，SYN=1，ACK=1，确认号为 x+1，同时也选择一个初始的序号 y。</li>
+<li>A 收到 B 的连接确认报文后，还要向 B 发出确认，确认号为 y+1，序号为 x+1。</li>
+</ul>
+<p>B 收到 A 的确认后，连接建立。</p>
+<p><strong>为什么三次？</strong></p>
+<p>1、第三次握手是为了防止失效的连接请求到达服务器，让服务器错误打开连接。</p>
+<p>2、换个易于理解的视角来看为什么要 3 次握手。</p>
+<p>客户端和服务端通信前要进行连接，“3次握手”的作用就是双方都能明确自己和对方的收、发能力是正常的。</p>
+<p>第一次握手：客户端发送网络包，服务端收到了。这样服务端就能得出结论：客户端的发送能力、服务端的接收能力是正常的。</p>
+<p>第二次握手：服务端发包，客户端收到了。这样客户端就能得出结论：服务端的接收、发送能力，客户端的接收、发送能力是正常的。从客户端的视角来看，我接到了服务端发送过来的响应数据包，说明服务端接收到了我在第一次握手时发送的网络包，并且成功发送了响应数据包，这就说明，服务端的接收、发送能力正常。而另一方面，我收到了服务端的响应数据包，说明我第一次发送的网络包成功到达服务端，这样，我自己的发送和接收能力也是正常的。</p>
+<p>第三次握手：客户端发包，服务端收到了。这样服务端就能得出结论：客户端的接收、发送能力，服务端的发送、接收能力是正常的。第一、二次握手后，服务端并不知道客户端的接收能力以及自己的发送能力是否正常。</p>
+<p>而在第三次握手时，服务端收到了客户端对第二次握手作的回应。从服务端的角度，我在第二次握手时的响应数据发送出去了，客户端接收到了。所以，我的发送能力是正常的。而客户端的接收能力也是正常的。</p>
+<p>经历了上面的三次握手过程，客户端和服务端都确认了自己的接收、发送能力是正常的。之后就可以正常通信了。</p>
+<p><strong>每次都是接收到数据包的一方可以得到一些结论，发送的一方其实没有任何头绪。我虽然有发包的动作，但是我怎么知道我有没有发出去，而对方有没有接收到呢？</strong></p>
+<p>而从上面的过程可以看到，最少是需要三次握手过程的。两次达不到让双方都得出自己、对方的接收、发送能力都正常的结论。</p>
+<p>其实每次收到网络包的一方至少是可以得到：对方的发送、我方的接收是正常的。而每一步都是有关联的，下一次的“响应”是由于第一次的“请求”触发，因此每次握手其实是可以得到额外的结论的。</p>
+<p>比如第三次握手时，服务端收到数据包，表明看服务端只能得到客户端的发送能力、服务端的接收能力是正常的，但是结合第二次，说明服务端在第二次发送的响应包，客户端接收到了，并且作出了响应，从而得到额外的结论：客户端的接收、服务端的发送是正常的。</p>
+<h2 id="5、TCP-的四次挥手（为什么四次？）"><a href="#5、TCP-的四次挥手（为什么四次？）" class="headerlink" title="5、TCP 的四次挥手（为什么四次？）"></a><strong>5、TCP 的四次挥手（为什么四次？）</strong></h2><p>四次挥手：</p>
+<p><strong><img src="https://pic2.zhimg.com/80/v2-8bf6f231cdd87b2613554f54424e8201_1440w.jpg" alt="四次挥手"></strong></p>
+<ul>
+<li>客户端发送一个 FIN 段，并包含一个希望接收者看到的自己当前的序列号 K. 同时还包含一个 ACK 表示确认对方最近一次发过来的数据。</li>
+<li>服务端将 K 值加 1 作为 ACK 序号值，表明收到了上一个包。这时上层的应用程序会被告知另一端发起了关闭操作，通常这将引起应用程序发起自己的关闭操作。</li>
+<li>服务端发起自己的 FIN 段，ACK=K+1, Seq=L。</li>
+<li>客户端确认。进入 TIME-WAIT 状态，等待 2 MSL（最大报文存活时间）后释放连接。ACK=L+1。</li>
+</ul>
+<p><strong>为什么建立连接是三次握手，而关闭连接却是四次挥手呢？</strong></p>
+<p>1、TCP连接是双向传输的对等的模式，就是说双方都可以同时向对方发送或接收数据。当有一方要关闭连接时，会发送指令告知对方，我要关闭连接了。</p>
+<p><strong>2、这时对方会回一个ACK，此时一个方向的连接关闭。并不代表另一个方向也要关闭，另一个方向仍然可以继续传输数据，也就是说，服务端收到客户端的 FIN 标志，知道客户端想要断开这次连接了，但是，我服务端，我还想发数据呢？我等到发送完了所有的数据后，会发送一个 FIN 段来关闭此方向上的连接。接收方发送 ACK确认关闭连接。</strong></p>
+<p>注意，接收到FIN报文的一方只能回复一个ACK, 它是无法马上返回对方一个FIN报文段的，因为结束数据传输的“指令”是上层应用层给出的，我只是一个“搬运工”，我无法了解“上层的意志”。</p>
+<p>3、客户端发送了 FIN 连接释放报文之后，服务器收到了这个报文，就进入了 CLOSE-WAIT 状态。这个状态是为了让服务器端发送还未传送完毕的数据，传送完毕之后，服务器会发送 FIN 连接释放报文。</p>
+<p>4、因为服务端在 LISTEN 状态下，收到建立连接请求的 SYN 报文后，把 ACK 和 SYN 放在一个报文里发送给客户端。而关闭连接时，当收到对方的 FIN 报文时，仅仅表示对方不再发送数据了但是还能接收数据，己方是否现在关闭发送数据通道，需要上层应用来决定，因此，己方 ACK 和 FIN 一般都会分开发。</p>
+<p><strong>TIME_WAIT</strong></p>
+<p>客户端接收到服务器端的 FIN 报文后进入此状态，此时并不是直接进入 CLOSED 状态，还需要等待一个时间计时器设置的时间 2MSL。这么做有两个理由：</p>
+<ul>
+<li>确保最后一个确认报文能够到达。如果 B 没收到 A 发送来的确认报文，那么就会重新发送连接释放请求报文，A 等待一段时间就是为了处理这种情况的发生。</li>
+<li>等待一段时间是为了让本连接持续时间内所产生的所有报文都从网络中消失，使得下一个新的连接不会出现旧的连接请求报文。</li>
+</ul>
+<h2 id="6、TCP-短连接和长连接的区别"><a href="#6、TCP-短连接和长连接的区别" class="headerlink" title="6、TCP 短连接和长连接的区别"></a><strong>6、TCP 短连接和长连接的区别</strong></h2><p><strong>短连接：</strong>Client 向 Server 发送消息，Server 回应 Client，然后一次读写就完成了，这时候双方任何一个都可以发起 close 操作，不过一般都是 Client 先发起 close 操作。短连接一般只会在 Client/Server 间传递一次读写操作。</p>
+<p>短连接的优点：管理起来比较简单，建立存在的连接都是有用的连接，不需要额外的控制手段。</p>
+<p><strong>长连接：</strong>Client 与 Server 完成一次读写之后，它们之间的连接并不会主动关闭，后续的读写操作会继续使用这个连接。</p>
+<p>在长连接的应用场景下，Client 端一般不会主动关闭它们之间的连接，Client 与 Server 之间的连接如果一直不关闭的话，随着客户端连接越来越多，Server 压力也越来越大，这时候 Server 端需要采取一些策略，如关闭一些长时间没有读写事件发生的连接，这样可以避免一些恶意连接导致 Server 端服务受损；如果条件再允许可以以客户端为颗粒度，限制每个客户端的最大长连接数，从而避免某个客户端连累后端的服务。</p>
+<p>长连接和短连接的产生在于 Client 和 Server 采取的关闭策略，具体的应用场景采用具体的策略。</p>
+<h2 id="7、TCP粘包、拆包及解决办法"><a href="#7、TCP粘包、拆包及解决办法" class="headerlink" title="7、TCP粘包、拆包及解决办法"></a><strong>7、TCP粘包、拆包及解决办法</strong></h2><p><strong>为什么常说 TCP 有粘包和拆包的问题而不说 UDP ？</strong></p>
+<p>由前两节可知，UDP 是基于报文发送的，UDP首部采用了 16bit 来指示 UDP 数据报文的长度，因此在应用层能很好的将不同的数据报文区分开，从而避免粘包和拆包的问题。</p>
+<p>而 TCP 是基于字节流的，虽然应用层和 TCP 传输层之间的数据交互是大小不等的数据块，但是 TCP 并没有把这些数据块区分边界，仅仅是一连串没有结构的字节流；另外从 TCP 的帧结构也可以看出，在 TCP 的首部没有表示数据长度的字段，基于上面两点，在使用 TCP 传输数据时，才有粘包或者拆包现象发生的可能。</p>
+<p><strong>什么是粘包、拆包？</strong></p>
+<p>假设 Client 向 Server 连续发送了两个数据包，用 packet1 和 packet2 来表示，那么服务端收到的数据可以分为三种情况，现列举如下：</p>
+<p>第一种情况，接收端正常收到两个数据包，即没有发生拆包和粘包的现象。</p>
+<p><img src="https://pic2.zhimg.com/80/v2-1f03c5a6c04279d9c318ef48348dc32d_1440w.png" alt="one"></p>
+<p>第二种情况，接收端只收到一个数据包，但是这一个数据包中包含了发送端发送的两个数据包的信息，这种现象即为粘包。这种情况由于接收端不知道这两个数据包的界限，所以对于接收端来说很难处理。</p>
+<p><img src="https://pic3.zhimg.com/80/v2-e090a51ff37d6dfd1de747c70288222a_1440w.png" alt="two"></p>
+<p>第三种情况，这种情况有两种表现形式，如下图。接收端收到了两个数据包，但是这两个数据包要么是不完整的，要么就是多出来一块，这种情况即发生了拆包和粘包。这两种情况如果不加特殊处理，对于接收端同样是不好处理的。</p>
+<p><img src="https://pic2.zhimg.com/80/v2-6163805a4cbd6be0581cca82cd5ac8f5_1440w.png" alt="three"></p>
+<p><img src="https://pic2.zhimg.com/80/v2-ca1d6c986cec845951dd0811f5888021_1440w.png" alt="img"></p>
+<p><strong>为什么会发生 TCP 粘包、拆包？</strong></p>
+<ul>
+<li>要发送的数据大于 TCP 发送缓冲区剩余空间大小，将会发生拆包。</li>
+<li>待发送数据大于 MSS（最大报文长度），TCP 在传输前将进行拆包。</li>
+<li>要发送的数据小于 TCP 发送缓冲区的大小，TCP 将多次写入缓冲区的数据一次发送出去，将会发生粘包。</li>
+<li>接收数据端的应用层没有及时读取接收缓冲区中的数据，将发生粘包。</li>
+</ul>
+<p><strong>粘包、拆包解决办法</strong></p>
+<p>由于 TCP 本身是面向字节流的，无法理解上层的业务数据，所以在底层是无法保证数据包不被拆分和重组的，这个问题只能通过上层的应用协议栈设计来解决，根据业界的主流协议的解决方案，归纳如下：</p>
+<ul>
+<li><strong>消息定长：</strong>发送端将每个数据包封装为固定长度（不够的可以通过补 0 填充），这样接收端每次接收缓冲区中读取固定长度的数据就自然而然的把每个数据包拆分开来。</li>
+<li><strong>设置消息边界：</strong>服务端从网络流中按消息边界分离出消息内容。在包尾增加回车换行符进行分割，例如 FTP 协议。</li>
+<li><strong>将消息分为消息头和消息体：</strong>消息头中包含表示消息总长度（或者消息体长度）的字段。</li>
+<li>更复杂的应用层协议比如 Netty 中实现的一些协议都对粘包、拆包做了很好的处理。</li>
+</ul>
+<h2 id="8、TCP-可靠传输"><a href="#8、TCP-可靠传输" class="headerlink" title="8、TCP 可靠传输"></a><strong>8、TCP 可靠传输</strong></h2><p>TCP 使用超时重传来实现可靠传输：如果一个已经发送的报文段在超时时间内没有收到确认，那么就重传这个报文段。</p>
+<p>一个报文段从发送再到接收到确认所经过的时间称为往返时间 RTT，加权平均往返时间 RTTs 计算如下：</p>
+<p><img src="https://pic1.zhimg.com/80/v2-c55cbe9732b1a2bf9b13e63bb489a650_1440w.png" alt="RTTs"></p>
+<p>其中，0 ≤ a ＜ 1，RTTs 随着 a 的增加更容易受到 RTT 的影响。超时时间 RTO 应该略大于 RTTs，TCP 使用的超时时间计算如下：</p>
+<p><img src="https://pic1.zhimg.com/80/v2-7b92eb20e4b0fb7f0a471a06806239a8_1440w.jpg" alt="RTO"></p>
+<p>其中 RTTd 为偏差的加权平均值。</p>
+<h2 id="9、TCP-滑动窗口"><a href="#9、TCP-滑动窗口" class="headerlink" title="9、TCP 滑动窗口"></a><strong>9、TCP 滑动窗口</strong></h2><p>窗口是缓存的一部分，用来暂时存放字节流。发送方和接收方各有一个窗口，接收方通过 TCP 报文段中的窗口字段告诉发送方自己的窗口大小，发送方根据这个值和其它信息设置自己的窗口大小。</p>
+<p>发送窗口内的字节都允许被发送，接收窗口内的字节都允许被接收。如果发送窗口左部的字节已经发送并且收到了确认，那么就将发送窗口向右滑动一定距离，直到左部第一个字节不是已发送并且已确认的状态；接收窗口的滑动类似，接收窗口左部字节已经发送确认并交付主机，就向右滑动接收窗口。</p>
+<p>接收窗口只会对窗口内最后一个按序到达的字节进行确认，例如接收窗口已经收到的字节为 {31, 34, 35}，其中 {31} 按序到达，而 {34, 35} 就不是，因此只对字节 31 进行确认。发送方得到一个字节的确认之后，就知道这个字节之前的所有字节都已经被接收。</p>
+<p><img src="https://pic4.zhimg.com/80/v2-b9535beef75cdd742cb5718f97029a6f_1440w.jpg" alt="滑动窗口"></p>
+<h2 id="10、TCP-流量控制"><a href="#10、TCP-流量控制" class="headerlink" title="10、TCP 流量控制"></a><strong>10、TCP 流量控制</strong></h2><p>流量控制是为了控制发送方发送速率，保证接收方来得及接收。</p>
+<p>接收方发送的确认报文中的窗口字段可以用来控制发送方窗口大小，从而影响发送方的发送速率。将窗口字段设置为 0，则发送方不能发送数据。</p>
+<p><strong>实际上，为了避免此问题的产生，发送端主机会时不时的发送一个叫做窗口探测的数据段</strong>，此数据段仅包含一个字节来获取最新的窗口大小信息。</p>
+<h2 id="11、TCP-拥塞控制"><a href="#11、TCP-拥塞控制" class="headerlink" title="11、TCP 拥塞控制"></a><strong>11、TCP 拥塞控制</strong></h2><p>如果网络出现拥塞，分组将会丢失，此时发送方会继续重传，从而导致网络拥塞程度更高。因此当出现拥塞时，应当控制发送方的速率。这一点和流量控制很像，但是出发点不同。流量控制是为了让接收方能来得及接收，而拥塞控制是为了降低整个网络的拥塞程度。</p>
+<p><img src="https://pic4.zhimg.com/80/v2-62529f3bda992dc7035dcb13ef0da8b7_1440w.jpg" alt="拥塞控制"></p>
+<p>TCP 主要通过四个算法来进行拥塞控制：</p>
+<p><strong>慢开始、拥塞避免、快重传、快恢复。</strong></p>
+<p>发送方需要维护一个叫做拥塞窗口（cwnd）的状态变量，注意拥塞窗口与发送方窗口的区别：拥塞窗口只是一个状态变量，实际决定发送方能发送多少数据的是发送方窗口。</p>
+<p>为了便于讨论，做如下假设：</p>
+<ul>
+<li>接收方有足够大的接收缓存，因此不会发生流量控制；</li>
+<li>虽然 TCP 的窗口基于字节，但是这里设窗口的大小单位为报文段。</li>
+</ul>
+<p><img src="https://pic1.zhimg.com/80/v2-a62edcee3fb47ed147e56bdc8001feec_1440w.jpg" alt="窗口变化"></p>
+<p><strong>慢开始与拥塞避免</strong></p>
+<p>发送的最初执行慢开始，令 cwnd = 1，发送方只能发送 1 个报文段；当收到确认后，将 cwnd 加倍，因此之后发送方能够发送的报文段数量为：2、4、8 …</p>
+<p>注意到慢开始每个轮次都将 cwnd 加倍，这样会让 cwnd 增长速度非常快，从而使得发送方发送的速度增长速度过快，网络拥塞的可能性也就更高。设置一个慢开始门限 ssthresh，当 cwnd &gt;= ssthresh 时，进入拥塞避免，每个轮次只将 cwnd 加 1。</p>
+<p>如果出现了超时，则令 ssthresh = cwnd / 2，然后重新执行慢开始。</p>
+<p><strong>快重传与快恢复</strong></p>
+<p>在接收方，要求每次接收到报文段都应该对最后一个已收到的有序报文段进行确认。例如已经接收到 M1 和 M2，此时收到 M4，应当发送对 M2 的确认。</p>
+<p>在发送方，如果收到三个重复确认，那么可以知道下一个报文段丢失，此时执行快重传，立即重传下一个报文段。例如收到三个 M2，则 M3 丢失，立即重传 M3。</p>
+<p>在这种情况下，只是丢失个别报文段，而不是网络拥塞。因此执行快恢复，令 ssthresh = cwnd / 2 ，cwnd = ssthresh，注意到此时直接进入拥塞避免。</p>
+<p>慢开始和快恢复的快慢指的是 cwnd 的设定值，而不是 cwnd 的增长速率。慢开始 cwnd 设定为 1，而快恢复 cwnd 设定为 ssthresh。</p>
+<p><img src="https://pic2.zhimg.com/80/v2-1cc37f757263f3cd58e917059cedc7b5_1440w.jpg" alt="快重传"></p>
+<h2 id="12、提供网络利用率"><a href="#12、提供网络利用率" class="headerlink" title="12、提供网络利用率"></a><strong>12、提供网络利用率</strong></h2><p><strong>1、Nagle 算法</strong></p>
+<p>发送端即使还有应该发送的数据，但如果这部分数据很少的话，则进行延迟发送的一种处理机制。具体来说，就是仅在下列任意一种条件下才能发送数据。如果两个条件都不满足，那么暂时等待一段时间以后再进行数据发送。</p>
+<ul>
+<li>已发送的数据都已经收到确认应答。</li>
+<li>可以发送最大段长度的数据时。</li>
+</ul>
+<p><strong>2、延迟确认应答</strong></p>
+<p>接收方收到数据之后可以并不立即返回确认应答，而是延迟一段时间的机制。</p>
+<ul>
+<li>在没有收到 2*最大段长度的数据为止不做确认应答。</li>
+<li>其他情况下，最大延迟 0.5秒 发送确认应答。</li>
+<li>TCP 文件传输中，大多数是每两个数据段返回一次确认应答。</li>
+</ul>
+<p><strong>3、捎带应答</strong></p>
+<p>在一个 TCP 包中既发送数据又发送确认应答的一种机制，由此，网络利用率会提高，计算机的负荷也会减轻，但是这种应答必须等到应用处理完数据并将作为回执的数据返回为止。</p>
+<p>今天的知识点掌握了吗？不要忘了学而时习之，不亦可乎。</p>
+<p>各位老铁们如果有补充的，也是可以留言区补充一波哦。</p>
 <blockquote>
-<p>这里补充下知乎网友@风云评论：<br>其实，在用户空间，几乎所有内核资源在用户空间都是可以访问的（必须有相应的权限），即使是操作系统内核的大脑（调度程序）。</p>
-</blockquote>
-<p>在用户空间里，也有许多地址区间有特权的地位，一般来讲，应用程序使用的内存空间里有如下“默认”的区域。</p>
-<blockquote>
-<p><strong>栈：</strong> 栈用于维护函数调用的上下文，离开了栈，函数调用就无法实现，栈通常在用户空间的最高地址处分配，通常有数兆字节的大小。</p>
-<p><strong>堆：</strong> 堆是用来容纳应用程序动态分配的内存区域，当程序使用 malloc 或者 new 分配内存的时候，得到的内存会来自堆里。堆通常存在栈的下方（低地址方向），在某些时候，堆也可能没有固定统一的存储区域。堆一般比栈大很多，可以有几十至数百兆字节的容量。</p>
-<p><strong>可执行文件映像：</strong> 存储着可执行文件在内存里的映像，由装载器在装载时将可执行文件的内存读取或映射到这里。</p>
-<p><strong>保留区：</strong> 保留区并不是一个单一的内存区域，而是对内存中受到保护而禁止访问的内存区域的总称：例如大多数操作系统中，极小的地址通常都是不允许访问的，如 NULL，C 语言将无效指针赋值为 0 也是这个考虑。</p>
-<p><strong>动态链接库映射区：</strong> 这个区域用于映射装载的动态链接库。在 Linux 下，如果可执行文件依赖其它共享库，那么系统就会为它在从 0x40000000 开始的地址分配相应的空间，并将共享库载入该空间。<br>剩下的还有以下几部份组成：<br>（1）代码段<br>（2）初始化数据段（数据段）<br>（3）未初始化数据段（BSS 段）</p>
-</blockquote>
-<p>下图是 Linux 下一个进程里典型的内存布局</p>
-<p><img src="https://pic1.zhimg.com/80/v2-d208651aa87138e6291d789b3a880444_1440w.jpg" alt="Linux 下一个进程里典型的内存布局"></p>
-<p>图中的箭头，标明了几个大小可变的尺寸增长的方向，在这里，可以清晰地看出</p>
-<blockquote>
-<p><strong>栈是由高地址向低地址增长。</strong><br><strong>堆是由低地址向高地址增长。</strong></p>
-</blockquote>
-<p>当栈或堆现有的大小不够用的时候，它将按照图中的增长方向扩大自身的尺寸，直到预留的空间被用完为止。</p>
-<p>在讲堆和栈之前，我们先来看一下代码段，初始化数据段和未初始化数据段。</p>
-<h2 id="2、代码段"><a href="#2、代码段" class="headerlink" title="2、代码段"></a><strong>2、代码段</strong></h2><p>代码段中存放可执行的指令，在内存中，为了保证不会因为堆栈溢出被覆盖，将其放在了堆栈段下面（从上图可以看出）。通常来讲代码段是共享的，这样多次反复执行的指令只需要在内存中驻留一个副本即可，比如 C 编译器，文本编辑器等。代码段一般是只读的，程序执行时不能随意更改指令，也是为了进行隔离保护。</p>
-<h2 id="3、初始化数据段"><a href="#3、初始化数据段" class="headerlink" title="3、初始化数据段"></a><strong>3、初始化数据段</strong></h2><p>初始化数据段有时就称之为数据段。数据段是一个程序虚拟地址空间的一部分，包括一全局变量和静态变量，这些变量在编程时就已经被初始化。数据段是可以修改的，不然程序运行时变量就无法改变了，这一点和代码段不同。</p>
-<p>数据段可以细分为初始化只读区和初始化读写区。这一点和编程中的一些特殊变量吻合。比如全局变量 int global n = 1就被放在了初始化读写区，因为 global 是可以修改的。而 const int m = 2 就会被放在只读区，很明显，m 是不能修改的。</p>
-<h2 id="4、未初始化数据段"><a href="#4、未初始化数据段" class="headerlink" title="4、未初始化数据段"></a><strong>4、未初始化数据段</strong></h2><p>未初始化数据段有时称之为 BSS 段，BSS 是英文 Block Started by Symbol 的简称，BSS 段属于静态内存分配。存放在这里的数据都由内核初始化为 0。未初始化数据段从数据段的末尾开始，存放有全部的全局变量和静态变量并被，默认初始化为 0，或者代码中没有显式初始化。比如 static int i; 或者全局 int j; 都会被放到BSS段。</p>
-<h2 id="5、栈"><a href="#5、栈" class="headerlink" title="5、栈"></a><strong>5、栈</strong></h2><p> 栈 (stack) 是现代计算机程序里最为重要的概念之一，几乎每一个程序都使用了栈，没有栈就没有函数，没有局部变量，也就没有我们如今能够看见的所有的计算机语言。在解释为什么栈会如此重要之前，让我们来先了解一下传统的栈的定义：</p>
-<p> 在经典的计算机科学中，栈被定义为一个特殊的容器，用户可以将数据压入栈中(入栈,push，也可以将已经压入栈中的数据弹出(出栈, pop)，但栈这个容器必须遵守一条规则：先入栈的数据后出栈(First In Last Out, FIFO)，多多少少像叠成一叠的书：先叠上去的书在最下面：因此要最后才能取出。</p>
-<p> 在计算机系统中，栈则是一个具有以上属性的动态内存区域。程序可以将数据压入栈中,也可以将数据从栈顶弹出。压栈操作使得栈增大,而弹出操作使栈减小。</p>
-<p> 在经典的操作系统里，栈总是向下增长的。</p>
-<p><strong>在i386下，栈顶由称为 esp 的寄存器进行定位。压栈的操作使栈顶的地址减小，弹出的操作使栈顶地址增大。</strong></p>
-<p><img src="https://pic1.zhimg.com/80/v2-c80a937e5d09461436c68d3357c46fc4_1440w.jpg" alt="栈的实例"></p>
-<p>这里栈底的地址是 0xbffff，而 esp 寄存器标明了栈顶，地址为 0xbifff4。</p>
-<p>在栈上压入数据会导致 esp 减小，弹出数据使得 esp 增大。</p>
-<p>栈在程序运行中具有举足轻重的地位。最重要的，栈保存了一个函数调用所需要的维护信息，这常常被称为堆栈帧(Stack Frame)或活动记录(Activate Record)，堆栈帧一般包括如下几方面内容：</p>
-<blockquote>
-<p><strong>1、函数的返回地址和参数。</strong><br><strong>2、临时变量:包括函数的非静态局部变量以及编译器自动生成的其他临时变量。</strong><br><strong>3、保存的上下文:包括在函数调用前后需要保持不变的寄存器。</strong></p>
-</blockquote>
-<h2 id="6、堆"><a href="#6、堆" class="headerlink" title="6、堆"></a><strong>6、堆</strong></h2><p>相对于栈，堆这片内存面临着一个稍微复杂的行为模式：在任意时刻，程序可能发出请求，要么申请一段内存，要么释放一段已经申请过的内存，而且申请的大小从几个字节到数 GB 都是有可能的，我们不能假设程序会一次申请多少堆空间，因此，堆的管理显得较为复杂。</p>
-<p><strong>为什么需要堆？</strong></p>
-<blockquote>
-<p>光有栈，对于面向过程的程序设计还远远不够，因为栈上的数据在函数返回的时候就会被释放掉，所以无法将数据传递至函数外部。而全局变量没有办法动态地产生，只能在编译的时候定义，有很多情况下缺乏表现力，在这种情况下，堆（Heap）是一种唯一的选择。</p>
-</blockquote>
-<p>堆是一款巨大的内存空间，常常占据整个虚拟空间的绝大部分，在这片空间里，程序可以请求一块连续的内存，并自由地使用，这块内存在程序主动放弃之前都活一直保持有效，下面是一个申请堆空间最简单的例子：</p>
-<pre class="line-numbers language-cpp"><code class="language-cpp"><span class="token keyword">int</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
-<span class="token punctuation">{</span>
-    <span class="token keyword">char</span><span class="token operator">*</span> p <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token keyword">char</span><span class="token operator">*</span><span class="token punctuation">)</span> <span class="token function">malloc</span><span class="token punctuation">(</span><span class="token number">233</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-    <span class="token function">free</span><span class="token punctuation">(</span>p<span class="token punctuation">)</span><span class="token punctuation">;</span>
-    <span class="token keyword">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
-<span class="token punctuation">}</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-<p>在第 3 行用 malloc 申请了 233 个字节的空间之后，程序可以自由地使用这 233个字节，直到程序用free函数释放它。</p>
-<p><strong>那么 malloc 到底是怎么实现的呢？</strong></p>
-<p>有一种做法是，把进程的内存管理交给操作系统内核去做，既然内核管理着进程的地址空间，那么如果它提供一个系统调用，可以让程序使用这个系统调用申请内存，不就可以了吗？</p>
-<p>当然这是一种理论上可行的做法，但实际上这样做的性能比较差，原因在于每次程序申请或者释放堆空间都需要进行系统调用。</p>
-<p>我们知道系统调用的性能开销是很大的，当程序对堆的操作比较频繁时，这样做的结果是会严重影响程序的性能的。</p>
-<p><strong>比较好的做法就是：程序向操作系统申请一块适当大小的堆空间，然后由程序自己管理这块空间，而具体来讲，管理着堆空间分配的往往是程序的运行库。</strong></p>
-<p>运行库相当于是向操作系统 <strong>“批发”</strong> 了一块较大的堆空间，然后 “零售” 给程序用。</p>
-<p>当全部“售完”或程序有大量的内存需求时，再根据实际需求向操作系统“进货”。</p>
-<p>当然运行库在向程序零售堆空间时，必须管理它批发来的堆空间，不能把同一块地址出售两次，导致地址的冲突。</p>
-<h2 id="7、Linux-进程堆管理"><a href="#7、Linux-进程堆管理" class="headerlink" title="7、Linux 进程堆管理"></a><strong>7、Linux 进程堆管理</strong></h2><p>由第一节可知，进程的地址空间中，除了可执行文件，共享库和栈之外，剩余的未分配的空间都可以用来作为堆空间。</p>
-<p>Linux 系统下，提供两种堆空间分配方式，两个系统调用：brk() 系统调用 和 mmap() 系统调用</p>
-<p>这两种方式分配的都是虚拟内存，没有分配物理内存。在第一次访问已分配的虚拟地址空间的时候，发生缺页中断，操作系统负责分配物理内存，然后建立虚拟内存和物理内存之间的映射关系。</p>
-<p>在标准 C 库中，提供了malloc/free函数分配释放内存，这两个函数底层是由 brk，mmap，munmap 这些系统调用实现的。</p>
-<h3 id="brk-系统调用"><a href="#brk-系统调用" class="headerlink" title="brk() 系统调用"></a><strong>brk() 系统调用</strong></h3><blockquote>
-<p>C 语言形式声明：int brk() {void* end_data_segment;}<br>brk() 的作用实际上就是设置进程数据段的结束地址，即它可以扩大或者缩小数据段（Linux 下数据段和 BBS 合并在一起统称数据段）。<br>如果我们将数据段的结束地址向高地址移动，那么扩大的那部分空间就可以被我们使用，把这块空间拿过来使用作为堆空间是最常见的做法。</p>
-</blockquote>
-<h3 id="mmap-系统调用"><a href="#mmap-系统调用" class="headerlink" title="mmap() 系统调用"></a><strong>mmap() 系统调用</strong></h3><blockquote>
-<p>和 Windows 系统下的 VirtualAlloc 很相似，它的作用就是向操作系统申请一段虚拟地址空间，（堆和栈中间，称为文件映射区域的地方）这块虚拟地址空间可以映射到某个文件。<br>glibc 的 malloc 函数是这样处理用户的空间请求的：对于小于 128KB 的请求来说，它会在现有的堆空间里面，按照堆分配算法为它分配一块空间并返回；对于大于128KB 的请求来说，它会使用 mmap() 函数为它分配一块匿名空间，然后在这个匿名空间中为用户分配空间。</p>
-</blockquote>
-<p>声明如下：</p>
-<pre class="line-numbers language-cpp"><code class="language-cpp"><span class="token keyword">void</span><span class="token operator">*</span> mmap<span class="token punctuation">{</span>
-    <span class="token keyword">void</span><span class="token operator">*</span> start<span class="token punctuation">;</span>
-    size_t length<span class="token punctuation">;</span>
-    <span class="token keyword">int</span> prot<span class="token punctuation">;</span>
-    <span class="token keyword">int</span> flags<span class="token punctuation">;</span>
-    <span class="token keyword">int</span> fd<span class="token punctuation">;</span>
-    off_t offset<span class="token punctuation">;</span>
-<span class="token punctuation">}</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-<blockquote>
-<p>mmap 前两个参数分别用于指定需要申请的空间的起始地址和长度，如果起始地址设置 0，那么 Linux 系统会自动挑选合适的起始地址。<br>prot/flags 参数：用于设置申请的空间的权限（可读，可写，可执行）以及映射类型（文件映射，匿名空间等）。<br>最后两个参数用于文件映射时指定的文件描述符和文件偏移的。</p>
-</blockquote>
-<p>了解了 Linux 系统对于堆的管理之后，可以再来详细这么一个问题，那就是 malloc 到底一次能够申请的最大空间是多少？</p>
-<p>为了回答这个问题，就不得不再回头仔细研究一下之前的图一。我们可以看到在有共享库的情况下，留给堆可以用的空间还有两处。第一处就是从 BSS 段结束到 0x40 000 000 即大约 1GB 不到的空间；</p>
-<p>第二处是从共享库到栈的这块空间，大约是 2GB 不到。这两块空间大小都取决于栈、共享库的大小和数量。</p>
-<p>于是可以估算到 malloc 最大的申请空间大约是 2GB 不到。（Linux 内核 2.4 版本）。</p>
-<p>还有其它诸多因素会影响 malloc 的最大空间大小，比如系统的资源限制（ulimit），物理内存和交换空间的总和等。mmap 申请匿名空间时，系统会为它在内存或交换空间中预留地址，但是申请的空间大小不能超过空闲内存+空闲交换空间的总和。</p>
-<h3 id="堆分配算法"><a href="#堆分配算法" class="headerlink" title="堆分配算法"></a>堆分配算法</h3><blockquote>
-<p>1、空闲链表法（即调用 malloc 分配）：<br>就是把堆中各个空闲的块按照链表的方式连接起来，当用户请求一块空间的时候，可以遍历整个列表，直到找到合适大小的块并且将它拆分；当用户释放空间的时候将它合并到空闲链表中。<br>空闲链表是这样一种结构，在堆里的每一个空闲空间的开头(或结尾)有一个头 (header)，头结构里记录了上一个 (prev) 和下一个 (next) 空闲块的地址，也就是说，所有的空闲块形成了一个链表。如图所示。</p>
-</blockquote>
-<p><img src="https://pic3.zhimg.com/80/v2-2ec61852d2b6fccaf11fd92923a2d81e_1440w.jpg" alt="空闲链表法"></p>
-<p>具体实现方案：</p>
-<blockquote>
-<p>1）malloc 函数的实质是它有一个将可用的内存块连接为一个长长的列表的所谓空闲链表。</p>
-<p>2）调用 malloc（）函数时，它沿着连接表寻找一个大到足以满足用户请求所需要的内存块。然后，将该内存块一分为二（一块的大小与用户申请的大小相等，另一块的大小就是剩下来的字节）。接下来，将分配给用户的那块内存存储区域传给用户，并将剩下的那块（如果有的话）返回到连接表上。</p>
-<p>3）调用 free 函数时，它将用户释放的内存块连接到空闲链表上。</p>
-<p>4）到最后，空闲链会被切成很多的小内存片段，如果这时用户申请一个大的内存片段， 那么空闲链表上可能没有可以满足用户要求的片段了。于是，malloc() 函数请求延时，并开始在空闲链表上检查各内存片段，对它们进行内存整理，将相邻的小空闲块合并成较大的内存块。</p>
-</blockquote>
-<p>2、位图法</p>
-<blockquote>
-<p>针对空闲链表的弊端，另一种分配方式显得更加稳健。这种方式称为位围(Bitmap)，其核心思想是将整个堆划分为大量的块(block)，每个块的大小相同。</p>
-<p>当用户请求内存的时候，总是分配整数个块的空间给用户，第一个块我们称为已分配区域的头(Head)，其余的称为己分配区域的主体(Body)，而我们可以使用一个整数数组来记录块的使用情况，由于每个块只有头/主体/空闲三种状态，因此仅仅需要两位即可表示一个块，因此称为位图。</p>
-</blockquote>
-<p>3、对象池</p>
-<blockquote>
-<p>还有一种方法是对象池，也是把堆空间分成了大小相等的一些块，它是认为某些场合每次分配的空间都相等，所以每次就直接返回一个块的大小，它的管理方法可以是链表也可以是位图。因为不用每次查找合适的大小的内存返回，所以效率很高。</p>
-</blockquote>
-<p>实际上很多现实应用中，堆的分配算法往往是采取多种算法复合而成的。</p>
-<p>比如对于 glibc 来说，它对于小于 64 字节的空间申请是采用类似于对象池的方法；</p>
-<p>而对于大于 512 字节的空间申请采用的是最佳适配算法；对于大于 64 字节而小于 512 字节的，它会根据情况采取上述方法中的最佳折中策略；对于大于 128KB 的申请，它会使用mmap 机制直接向操作系统申请空间。</p>
-<blockquote>
-<p>参考资料：</p>
-<p>《程序员的自我修养》；《Linux 内核设计与实现》；《C primer plus 第6版中文版》。</p>
+<p>参考：</p>
+<p><a href="https://link.zhihu.com/?target=http%3A//www.cnblogs.com/panchanggui/p/9518735.html">http://www.cnblogs.com/panchanggui/p/9518735.html</a></p>
+<p><a href="https://link.zhihu.com/?target=http%3A//www.cnblogs.com/qcrao-2018/p/10182185.html">http://www.cnblogs.com/qcrao-2018/p/10182185.html</a></p>
+<p><a href="https://link.zhihu.com/?target=http%3A//github.com/CyC2018/CS-Notes/blob/master/docs/notes/">http://github.com/CyC2018/CS-Notes/blob/master/docs/notes/</a></p>
 </blockquote>
 <h3 id="——————————极客时间专栏分享————————–"><a href="#——————————极客时间专栏分享————————–" class="headerlink" title="——————————极客时间专栏分享————————–"></a>——————————极客时间专栏分享————————–</h3><p>上面这篇文章参考了很多的书籍，对了，还有一些我认为非常不错的高质量专栏。</p>
-<p>对于操作系统的学习，我相信大家一开始都会觉得这里面的知识太多太杂，容易摸不着头脑，这里呢，我给大家分享一个极客时间的专栏福利，学了之后，我个人觉得极客时间上写得最好的一个专栏之一，学起来真的很有趣，而且每一篇后面都会有很多精彩的留言，老师讲的非常不错，而且每一篇文章老师都亲自录音文字稿，方便大家在通勤路上也可以用耳机学习，真的很良心了，文章通俗易懂又饶有趣味，真诚的推荐给各位老铁们，有需要的可以扫码加入，一起学习，一起加油！</p>
+<p>对于计算机网络的学习，我相信大家一开始都会觉得这里面的知识太多太杂，容易摸不着头脑，这里呢，我给大家分享一个极客时间的专栏福利，跟之前推荐的《趣学Linux操作系统》是同一个老师哦，学起来很有趣，而且每一篇后面都会有很多精彩的留言，老师讲的非常不错，而且每一篇文章老师都亲自录音文字稿，方便大家在通勤路上也可以用耳机学习，真的很良心了，文章通俗易懂又饶有趣味，真诚的推荐给各位老铁们，有需要的可以扫码加入，一起学习，一起加油！</p>
 <p>（感觉极客时间很多专栏都写的挺不错哦，如果不是真心感觉不错的我也不会随便推荐的）。</p>
-<div align="center"> <img src="https://i.loli.net/2020/04/11/JRGCZbIWwKd7Q4f.jpg"width="300"/> </div><br>
-
-<div align="center"> <img src="https://i.loli.net/2020/04/11/q856p97RhmGM3lI.jpg"width="300"/> </div>
+<div align="center"> <img src="https://pic4.zhimg.com/80/v2-03a9b4750f686a50ca6374d309757a1f_1440w.jpg"width="300"/> </div><br>
 
 <br/>
 
@@ -665,8 +708,8 @@
 </blockquote>
 <div align="center"> <img src="https://i.loli.net/2020/04/11/GquzYyQ5loDCALM.png"width="500"/> </div><br>
 
-<p>非常感谢各位老铁能<strong>看到这里</strong>，如果觉得本篇文章写得不错，觉得 <strong>「herongwei」是一个认真的仔</strong> 的话，<strong>求点赞，求关注，求分享，求留言哦！</strong></p>
-<p>创作不易，各位老铁的支持和认可，就是我创作的最大动力，我们下篇文章在见！</p>
+<p>非常感谢各位能 <strong>看到这里</strong>，如果觉得本篇文章写得不错，觉得 <strong>「herongwei」是一个认真的仔</strong> 的话，<strong>求点赞，求关注，求分享，求留言哦！</strong></p>
+<p>创作不易，各位的支持和认可，就是我创作的最大动力，我们下篇文章在见！</p>
 
             </div>
             <hr/>
@@ -692,7 +735,7 @@
                     </i>
                 </span>
                 <span class="reprint-info">
-                    <a href="http://herongwei.com/2020/04/11/qian-tan-cheng-xu-de-nei-cun-bu-ju/">http://herongwei.com/2020/04/11/qian-tan-cheng-xu-de-nei-cun-bu-ju/</a>
+                    <a href="http://herongwei.com/2020/04/11/yi-wen-gao-ding-udp-he-tcp-gao-pin-mian-shi-ti/">http://herongwei.com/2020/04/11/yi-wen-gao-ding-udp-he-tcp-gao-pin-mian-shi-ti/</a>
                 </span>
             </div>
             <div class="reprint__notice">
@@ -734,12 +777,12 @@
                                     <span class="chip bg-color">计算机</span>
                                 </a>
                             
-                                <a href="/tags/%E5%BA%95%E5%B1%82%E7%9F%A5%E8%AF%86/">
-                                    <span class="chip bg-color">底层知识</span>
+                                <a href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/">
+                                    <span class="chip bg-color">计算机网络</span>
                                 </a>
                             
-                                <a href="/tags/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/">
-                                    <span class="chip bg-color">操作系统</span>
+                                <a href="/tags/%E5%BA%95%E5%B1%82%E7%9F%A5%E8%AF%86/">
+                                    <span class="chip bg-color">底层知识</span>
                                 </a>
                             
                         </div>
@@ -910,7 +953,7 @@
         repo: 'rongweihe.github.io',
         owner: 'rongweihe',
         admin: "rongweihe",
-        id: '2020-04-11T20-32-31',
+        id: '2020-04-11T21-09-42',
         distractionFreeMode: false  // Facebook-like distraction free mode
     });
 
@@ -934,9 +977,10 @@
 <article id="prenext-posts" class="prev-next articles">
     <div class="row article-row">
         
-        <div class="article col s12 m6" data-aos="fade-up">
+        <div class="article col s12 m6" data-aos="fade-up" data-aos="fade-up">
             <div class="article-badge left-badge text-color">
-                <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
+                <i class="far fa-dot-circle"></i>&nbsp;本篇
+            </div>
             <div class="card">
                 <a href="/2020/04/11/yi-wen-gao-ding-udp-he-tcp-gao-pin-mian-shi-ti/">
                     <div class="card-image">
@@ -953,9 +997,9 @@
                         
                     </div>
                     <div class="publish-info">
-                        <span class="publish-date">
-                            <i class="far fa-clock fa-fw icon-date"></i>2020-04-11
-                        </span>
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2020-04-11
+                            </span>
                         <span class="publish-author">
                             
                             <i class="fas fa-bookmark fa-fw icon-category"></i>
@@ -968,6 +1012,7 @@
                         </span>
                     </div>
                 </div>
+
                 
                 <div class="card-action article-tags">
                     
@@ -994,18 +1039,18 @@
                 下一篇&nbsp;<i class="fas fa-chevron-right"></i>
             </div>
             <div class="card">
-                <a href="/2020/04/11/zui-xin-duo-jiao-de-shui-ke-yi-tui-tong-xue-ni-jin-tian-tui-shui-liao-ma/">
+                <a href="/2020/04/11/qian-tan-cheng-xu-de-nei-cun-bu-ju/">
                     <div class="card-image">
                         
-                        <img src="https://i.loli.net/2020/04/11/wMVnmqSOd1sgjAr.jpg" class="responsive-img" alt="最新！多交的税可以退，同学，你今天退税了吗？">
+                        <img src="https://i.loli.net/2020/04/11/WJ34GOpkV5TtvFA.jpg" class="responsive-img" alt="浅谈程序的内存布局">
                         
-                        <span class="card-title">最新！多交的税可以退，同学，你今天退税了吗？</span>
+                        <span class="card-title">浅谈程序的内存布局</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            最新个人所得税退税指南
+                            一起来探究下程序内存布局
                         
                     </div>
                     <div class="publish-info">
@@ -1016,8 +1061,8 @@
                             
                             <i class="fas fa-bookmark fa-fw icon-category"></i>
                             
-                            <a href="/categories/%E7%94%9F%E6%B4%BB/" class="post-category">
-                                    生活
+                            <a href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%9F%A5%E8%AF%86/" class="post-category">
+                                    计算机知识
                                 </a>
                             
                             
@@ -1027,12 +1072,16 @@
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/%E7%94%9F%E6%B4%BB/">
-                        <span class="chip bg-color">生活</span>
+                    <a href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA/">
+                        <span class="chip bg-color">计算机</span>
                     </a>
                     
-                    <a href="/tags/Markdown/">
-                        <span class="chip bg-color">Markdown</span>
+                    <a href="/tags/%E5%BA%95%E5%B1%82%E7%9F%A5%E8%AF%86/">
+                        <span class="chip bg-color">底层知识</span>
+                    </a>
+                    
+                    <a href="/tags/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/">
+                        <span class="chip bg-color">操作系统</span>
                     </a>
                     
                 </div>
