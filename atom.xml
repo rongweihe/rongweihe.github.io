@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://herongwei.com/"/>
-  <updated>2020-04-11T12:40:26.683Z</updated>
+  <updated>2020-04-11T12:43:32.897Z</updated>
   <id>http://herongwei.com/</id>
   
   <author>
@@ -21,7 +21,7 @@
     <link href="http://herongwei.com/2020/04/11/qian-tan-cheng-xu-de-nei-cun-bu-ju/"/>
     <id>http://herongwei.com/2020/04/11/qian-tan-cheng-xu-de-nei-cun-bu-ju/</id>
     <published>2020-04-11T12:32:31.000Z</published>
-    <updated>2020-04-11T12:40:26.683Z</updated>
+    <updated>2020-04-11T12:43:32.897Z</updated>
     
     <summary type="html">
     
@@ -29,8 +29,8 @@
       
         
         
-          &lt;h2 id=&quot;前言&quot;&gt;&lt;a href=&quot;#前言&quot; class=&quot;headerlink&quot; title=&quot;前言&quot;&gt;&lt;/a&gt;&lt;strong&gt;前言&lt;/strong&gt;&lt;/h2&gt;&lt;blockquote&gt;
-&lt;p&gt;&lt;strong&gt;1、什么是 User space 与 Kernel
+          &lt;h5 id=&quot;前言：&quot;&gt;&lt;a href=&quot;#前言：&quot; class=&quot;headerlink&quot; title=&quot;前言：&quot;&gt;&lt;/a&gt;&lt;strong&gt;前言&lt;/strong&gt;：&lt;/h5&gt;&lt;blockquote&gt;
+&lt;p&gt;原文首发于知乎：&lt;a
         
       
     
