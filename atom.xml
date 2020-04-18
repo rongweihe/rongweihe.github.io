@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://herongwei.com/"/>
-  <updated>2020-04-11T14:27:50.401Z</updated>
+  <updated>2020-04-18T13:41:57.514Z</updated>
   <id>http://herongwei.com/</id>
   
   <author>
@@ -17,11 +17,42 @@
   <generator uri="https://hexo.io/">Hexo</generator>
   
   <entry>
+    <title>何谓玄学</title>
+    <link href="http://herongwei.com/2020/04/18/he-wei-xuan-xue/"/>
+    <id>http://herongwei.com/2020/04/18/he-wei-xuan-xue/</id>
+    <published>2020-04-18T13:34:15.000Z</published>
+    <updated>2020-04-18T13:41:57.514Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;h1 id=&quot;何谓玄学？&quot;&gt;&lt;a href=&quot;#何谓玄学？&quot; class=&quot;headerlink&quot;
+        
+      
+    
+    </summary>
+    
+    
+      <category term="读书笔记" scheme="http://herongwei.com/categories/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/"/>
+    
+    
+      <category term="读书笔记" scheme="http://herongwei.com/tags/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/"/>
+    
+      <category term="哲学" scheme="http://herongwei.com/tags/%E5%93%B2%E5%AD%A6/"/>
+    
+      <category term="玄学" scheme="http://herongwei.com/tags/%E7%8E%84%E5%AD%A6/"/>
+    
+  </entry>
+  
+  <entry>
     <title>一文搞定 UDP 和 TCP 高频面试题</title>
     <link href="http://herongwei.com/2020/04/11/yi-wen-gao-ding-udp-he-tcp-gao-pin-mian-shi-ti/"/>
     <id>http://herongwei.com/2020/04/11/yi-wen-gao-ding-udp-he-tcp-gao-pin-mian-shi-ti/</id>
     <published>2020-04-11T13:09:42.000Z</published>
-    <updated>2020-04-11T14:27:50.401Z</updated>
+    <updated>2020-04-18T13:39:52.254Z</updated>
     
     <summary type="html">
     
@@ -115,7 +146,7 @@
     <link href="http://herongwei.com/2020/04/11/xiao-gou-qian-qian-du-shu-bi-ji/"/>
     <id>http://herongwei.com/2020/04/11/xiao-gou-qian-qian-du-shu-bi-ji/</id>
     <published>2020-04-11T11:16:56.000Z</published>
-    <updated>2020-04-11T12:14:46.392Z</updated>
+    <updated>2020-04-18T13:40:08.190Z</updated>
     
     <summary type="html">
     
